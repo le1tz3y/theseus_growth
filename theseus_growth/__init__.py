@@ -60,16 +60,16 @@ class theseus():
         #  if the best fit function is requested, use teh get_retention_projection_best_fit method
         #  which iterates through all curve functions and finds the best fit (least squared error)
         #  if a single form was provided, just get that
-        profile = retention_profile.get_retention_projection_best_fit(profile, profile_max)
+        profile = get_retention_projection_best_fit(profile, profile_max)
         if form == 'best_fit' or form == '' or form is None:
             profile['retention_profile'] = 'best_fit'
         else:
-            if form in curve_functions.processes or form == 'interpolate':
+            if form in processes or form == 'interpolate':
                 profile['retention_profile'] = form
             else:
                 raise Exception('Invalid retention curve function provided')
 
-        profile['retention_projection'] = retention_profile.generate_retention_profile(profile, profile_max)
+        profile['retention_projection'] = generate_retention_profile(profile, profile_max)
         return profile
 
     def test_retention_profile(self, x_data, y_data):
@@ -90,36 +90,36 @@ class theseus():
         return True
 
     def plot_retention(self, profile, show_average_values=True):
-        graphs.plot_retention(profile, show_average_values)
+        plot_retention(profile, show_average_values)
 
     def project_cohorted_DAU(self, profile, periods, cohorts, DAU_target=None, DAU_target_timeline=None, start_date=1):
-        return cohort_projections.project_cohorted_DAU(
+        return project_cohorted_DAU(
             profile, periods, cohorts, DAU_target, DAU_target_timeline, start_date
         )
 
     def DAU_total(self, forward_DAU):
-        return cohort_projections.DAU_total(forward_DAU)
+        return DAU_total(forward_DAU)
 
     def plot_forward_DAU_stacked(self, forward_DAU, forward_DAU_labels, forward_DAU_dates,
                                  show_values=False, show_totals_values=False):
-        graphs.plot_forward_DAU_stacked(
+        plot_forward_DAU_stacked(
             forward_DAU, forward_DAU_labels, forward_DAU_dates, show_values, show_totals_values
         )
 
     def combine_DAU(self, DAU_totals, labels=None):
-        return cohort_projections.combine_DAU(DAU_totals, labels)
+        return combine_DAU(DAU_totals, labels)
 
     def project_aged_DAU(self, profile, periods, cohorts, ages, start_date=1):
-        return aged_DAU_projections.project_aged_DAU(profile, periods, cohorts, ages, start_date)
+        return project_aged_DAU(profile, periods, cohorts, ages, start_date)
 
     def project_exact_aged_DAU(self, profile, periods, cohorts, ages, start_date=1):
-        return aged_DAU_projections.project_exact_aged_DAU(profile, periods, cohorts, ages, start_date)
+        return project_exact_aged_DAU(profile, periods, cohorts, ages, start_date)
 
     def get_DNU(self, forward_DAU):
-        return aged_DAU_projections.get_DNU(forward_DAU)
+        return get_DNU(forward_DAU)
 
     def to_excel(self, df, file_name=None, sheet_name=None):
-        theseus_io.to_excel(df, file_name, sheet_name)
+        to_excel(df, file_name, sheet_name)
 
     def to_json(self, df, file_name=None):
-        theseus_io.to_json(df, file_name)
+        to_json(df, file_name)
