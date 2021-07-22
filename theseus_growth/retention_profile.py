@@ -13,7 +13,7 @@ from theseus_growth import curve_functions
 def generate_retention_profile(profile, profile_max):
     y_data_projected = project_retention(profile, profile_max=profile_max)
     # push 1 onto the front of the list because day 0 retention is always 100
-    y_data_projected = np.insert(y_data_projected, 0, 100)
+    #y_data_projected = np.insert(y_data_projected, 0, 100)
 
     # get the occurances of all inf values
     inf_indices = [i for i, x in enumerate(y_data_projected) if x == float("inf")]
